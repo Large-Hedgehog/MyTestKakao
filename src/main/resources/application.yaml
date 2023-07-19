@@ -1,0 +1,26 @@
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 3MB
+      max-request-size: 12MB
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://192.168.0.144:3306/kdy
+    username: KDY
+    password: 12061004
+# mybatis config
+mybatis:
+  type-aliases-package: com.example.testkakao
+  mapper-locations: mapper/**/*.xml
+
+# swagger
+springdoc:
+  swagger-ui:
+    path: /swagger.html
+
+file:
+  dir: D:/download/todo/
+
+server:
+  port: 8080

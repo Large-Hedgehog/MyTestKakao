@@ -58,6 +58,13 @@
             <version>3.0.2</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- Gson 씁니다 -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.9.0</version>
+        </dependency>
     </dependencies>
 
     <build>
