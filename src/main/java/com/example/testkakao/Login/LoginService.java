@@ -1,5 +1,6 @@
 package com.example.testkakao.Login;
 
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonElement;
 import lombok.extern.slf4j.Slf4j;
@@ -8,6 +9,8 @@ import org.springframework.stereotype.Service;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
+
 @Slf4j
 @Service
 public class LoginService{
@@ -42,6 +45,7 @@ public class LoginService{
             //결과 코드가 200이라면 성공
             int responseCode = conn.getResponseCode();
             log.info("responseCode : {}", responseCode);
+            log.info("인가 코드 발급 성공");
 
             //요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -69,7 +73,47 @@ public class LoginService{
             e.printStackTrace();
         }
 
-        log.info("access 토큰 : {}",  access_Token);
+        log.info("> access 토큰 : {}",  access_Token);
         return access_Token;
+    }
+
+    public HashMap<String, Object> checkKakaoAccount(String access_Token) {
+        //카카오 기존 가입회원인지 확인하는 코드
+
+        HashMap<String, Object> userInfo = new HashMap<>();
+        String postURL = "https://kapi.kakao.com/v2/user/me";
+
+        try {
+            URL url = new URL(postURL);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+
+            conn.setRequestProperty("Authorization", "Bearer " + access_Token);
+            int responseCode = conn.getResponseCode();
+            System.out.println("responseCode : " + responseCode);
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String line = "";
+            StringBuilder result = new StringBuilder();
+
+            while ((line = br.readLine()) != null) {
+                result.append(line);
+            }
+            System.out.println("response body : " + result);
+
+            JsonElement element = JsonParser.parseString(result.toString());
+            JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
+            JsonObject kakaoAccount = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
+
+            String nickname = properties.getAsJsonObject().get("nickname").getAsString();
+
+            userInfo.put("nickname", nickname);
+
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+
+        return userInfo;
+
     }
 }

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
 
 
 // REST API 키 : c6a9f5dbf692782ac8d66a6a51953953
@@ -30,12 +31,16 @@ public class LoginController {
 
     //callback
     @ResponseBody
-    @GetMapping("/login")
+    @GetMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
     public void kakaoCallback(@RequestParam String code) {
         log.info("code 추출값 : {}", code);
         log.info("로그인용 인가코드 정상 추출");
 
-        service.getKakaoAccessToken(code);
+        String access_Token = service.getKakaoAccessToken(code);
+
+        //토큰을 통해 가져온 정보로 회원여부 확인
+        //기존회원인지 확인하는 부분
+        HashMap<String, Object> userInfo = service.checkKakaoAccount(access_Token);
     }
 
 
