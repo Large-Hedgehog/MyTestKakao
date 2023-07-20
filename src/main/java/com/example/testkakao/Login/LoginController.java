@@ -13,8 +13,8 @@ import java.net.URL;
 
 
 // REST API 키 : c6a9f5dbf692782ac8d66a6a51953953
-// Redirect URI : http://localhost:8080/kakao/login
-// 테스트용 고정주소값 https://kauth.kakao.com/oauth/authorize?client_id=c6a9f5dbf692782ac8d66a6a51953953&redirect_uri=http://localhost:8080/kakao/login&response_type=code
+// Redirect URI : http://localhost:8081/kakao/login
+// 테스트용 고정주소값 https://kauth.kakao.com/oauth/authorize?client_id=c6a9f5dbf692782ac8d66a6a51953953&redirect_uri=http://localhost:8081/kakao/login&response_type=code
 @RestController
 @RequestMapping("/kakao")
 @Slf4j

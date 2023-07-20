@@ -31,11 +31,13 @@ public class LoginService{
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
-            sb.append("&client_id=e4a81d5a6acbda948310e08e2eafc123"); // TODO REST_API_KEY 입력
-            sb.append("&redirect_uri=http://localhost:8080/kakao/login"); // TODO 인가코드 받은 redirect_uri 입력
+            sb.append("&client_id=c6a9f5dbf692782ac8d66a6a51953953"); //TODO REST_API_KEY 입력
+            sb.append("&redirect_uri=http://localhost:8081/kakao/login"); //TODO 인가코드 받은 redirect_uri 입력
             sb.append("&code=" + code);
             bw.write(sb.toString());
             bw.flush();
+
+            log.info(" 테스트 : {}", sb);
 
             //결과 코드가 200이라면 성공
             int responseCode = conn.getResponseCode();
@@ -68,8 +70,6 @@ public class LoginService{
         }
 
         log.info("access 토큰 : {}",  access_Token);
-        // 액세스토큰 왜안나오는지아는사람?????????????????????????
-        // 현재 401에러
         return access_Token;
     }
 }
